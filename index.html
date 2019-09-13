@@ -1,0 +1,3036 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- a game by Wololoa @2019 -->
+<title>Baby please! come back home - JS13K 2019</title>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+<script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+<!--script src="aframe.min.js"></script-->
+<style>
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Liberation Sans", Arial, sans;
+    font-size: 2vw;
+    text-align: center;
+}
+
+/* SPINNER > from: https://codepen.io/dennisandersson/pen/bXMVLJ */
+:root {
+    --c-p: black;
+    --c-a:  red;
+    box-sizing: border-box;
+    cursor: default;  
+}
+
+.spinner {
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    animation: spinner 1s linear infinite;
+    border: 0.5em solid var(--c-p);
+    border-top-color: var(--c-a);
+    border-radius: 100%;
+    display: block;
+    height: 5em;
+    width: 5em;
+}
+@keyframes spinner {
+    to { transform: rotate(1turn); }
+}
+
+
+/* MAIN TITLES AND ALL > from: https://codepen.io/ltrademark/pen/xpgprZ; */
+:selection {
+  color: #111111;
+  background-color: #c0dc67;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: #11111b;
+  color: #afd33d;
+  font-size: calc(6.4px + 0.8125vw);
+}
+.error-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.error-body:before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #afd33d;
+  mix-blend-mode: overlay;
+  z-index: 1;
+}
+
+.error-body:after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #11111b 21px, transparent 1%) center, linear-gradient(#11111b 21px, transparent 1%) center, #fff;
+  background-size: 22px 22px;
+  background-position: center;
+  opacity: 0.3;
+  z-index: 1;
+}
+
+.error-body .background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  filter: grayscale(1);
+  mix-blend-mode: luminosity;
+}
+.error-body .message {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  z-index: 3;
+}
+.error-body .message h1 {
+  position: absolute;
+  top: 15%;
+  left: 0%;
+  width: 100%;
+  font-size: 6em;
+  margin: 0;
+  animation: shake 900ms ease-in-out infinite alternate;
+  text-shadow: 0 0 0.07em #afd33d, -0.2em 0 2em rgba(175, 211, 61, .3), 0.2em 0 2em rgba(175, 211, 61, .3);
+  user-select: none;
+}
+.error-body .message h1:before {
+  content: attr(t);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, 0.34em);
+  height: 0.8em;
+  line-height: 0.5em;
+  width: 100%;
+  animation: scan 500ms ease-in-out infinite alternate 587ms, glitch-anim 300ms ease-in-out infinite alternate;
+  overflow: hidden;
+  opacity: 0.97;
+}
+.error-body .message h1:after {
+  content: attr(t);
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translate(-50%, 0.34em);
+  height: 0.5em;
+  line-height: 0.1em;
+  width: 100%;
+  animation: scan 665ms ease-in-out infinite alternate 443ms, glitch-anim 300ms ease-in-out infinite alternate;
+  overflow: hidden;
+  opacity: 0.8;
+}
+.error-body .message .bottom {
+  position: absolute;
+  top: 55%;
+  left: 0;
+  width: 100%;
+  font-size: 0.75em;
+}
+.error-body .message p, .error-body .message a {
+  font-size: 2em;
+  font-family: monospace;
+  text-shadow: 0 0 5px #afd33d;
+  font-color: #141414;
+  filter: blur(0.5px);
+}
+.error-body .message a {
+  position: relative;
+  color: #afd33d;
+  text-decoration: none;
+  font-weight: 700;
+  border: 2px solid #afd33d;
+  text-transform: uppercase;
+  padding: 5px 30px;
+  box-shadow: inset 0 0 0 0 rgba(175, 211, 61, .2);
+  transition: 25ms ease-in-out all 0ms;
+  overflow: hidden;
+  animation: attn 3s ease-in-out infinite;
+}
+.error-body .message a:hover {
+  cursor: crosshair;
+  box-shadow: inset 0 -2em 0 0 rgba(175, 211, 61, .2);
+  transition: 225ms ease-in-out all 225ms;
+  animation: none;
+}
+.error-body .message a:hover:before, .error-body .message a:hover:after {
+  transform: translate(-50%, 0) scale(0, 1);
+}
+.error-body .message a:active {
+  box-shadow: inset 0 -2em 0 0 rgba(175, 211, 61, .5);
+  transition: 225ms ease-in-out all 225ms;
+}
+.error-body .message a:before, .error-body .message a:after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0) scale(1, 1);
+  transform-origin: center;
+  background-color: #11111b;
+  width: 90%;
+  height: 5px;
+  transition: 225ms ease-in-out all;
+  mix-blend-mode: hard-light;
+}
+.error-body .message a:before {
+  top: -4px;
+}
+.error-body .message a:after {
+  bottom: -4px;
+}
+@keyframes scan {
+  from, 20%, 100% {
+    height: 0;
+    transform: translate(-50%, 0.44em);
+  }
+  10%, 15% {
+    height: 1em;
+    line-height: 0.2em;
+    transform: translate(-55%, 0.09em);
+  }
+}
+@keyframe pulse {
+  from {
+    text-shadow: 0 0 0 #afd33d, 0 0 0 rgba(175, 211, 61, .3), 0 0 0 rgba(175, 211, 61, .3);
+  }
+  to {
+    text-shadow: 0 0 0.07em #afd33d, -0.2em 0 2em rgba(175, 211, 61, .3), 0.2em 0 2em rgba(175, 211, 61, .3);
+  }
+}
+@keyframes attn {
+  0%, 100% {
+    opacity: 1;
+  }
+  30%, 35% {
+    opacity: 0.4;
+  }
+}
+@keyframes shake {
+  0%, 100% {
+    transform: translate(-1px, 0);
+  }
+  10% {
+    transform: translate(2px, 1px);
+  }
+  30% {
+    transform: translate(-3px, 2px);
+  }
+  35% {
+    transform: translate(2px, -3px);
+    filter: blur(4px);
+  }
+  45% {
+    transform: translate(2px, 2px) skewY(-8deg) scale(0.96, 1);
+    filter: blur(0);
+  }
+  50% {
+    transform: translate(-3px, 1px);
+  }
+}
+@keyframes glitch-anim {
+  0% {
+    clip: rect(32px, 9999px, 86px, 0);
+  }
+  10% {
+    clip: rect(66px, 9999px, 24px, 0);
+  }
+  20% {
+    clip: rect(22px, 9999px, 97px, 0);
+  }
+  30% {
+    clip: rect(65px, 9999px, 70px, 0);
+  }
+  40% {
+    clip: rect(24px, 9999px, 78px, 0);
+  }
+  50% {
+    clip: rect(61px, 9999px, 19px, 0);
+  }
+  60% {
+    clip: rect(60px, 9999px, 84px, 0);
+  }
+  70% {
+    clip: rect(36px, 9999px, 58px, 0);
+  }
+  80% {
+    clip: rect(34px, 9999px, 4px, 0);
+  }
+  90% {
+    clip: rect(83px, 9999px, 70px, 0);
+  }
+  100% {
+    clip: rect(12px, 9999px, 68px, 0);
+  }
+}
+</style>
+<body>
+
+<section id="loading" class="loading"><div id="intro" class="spinner"></div></section>
+
+<section id="title" class="error-body" style="display: none;"><div class="message"><h1 t="Baby, please! Come back home">Baby, please! Come back home</h1><div class="bottom"><p>And bring mommy lots of tasty toxic waste rings!</p><br><br><p><a href="#" onclick='go();'>PLAY</a></p></div></div></section>
+
+<div id="pause" class="error-body" style="display: none;"><div class="message"><h1 t="P A U S E D"><br>P A U S E D</h1><div class="bottom"><a href="#" onclick='unpause();'>CONTINUE</a></div></div></div>
+
+<div id="over" class="error-body" style="display: none;"><div class="message"><h1 t="O O O P S Y"><br>O o o p s y</h1><div class="bottom"><p id="lol">Looks like you are kinda dead or something :O</p><a href="#" onclick='restart();'>RESURRECT?</a></div></div></div>
+
+<a-scene game vr-mode-ui="enabled: false" background="color: #211" fog="type: linear; near: 550; far: 1500; color: #020d04" renderer="logarithmicDepthBuffer: true;">
+
+<a-assets id="assets">
+    <canvas id="TSK" width="512" height="256"></canvas> <!-- stupid fix for the "all white" textures-->
+    <canvas id="TCD" width="512" height="256"></canvas> <!--clouds-->    
+    <canvas id="TBD" width="1024" height="512"></canvas> <!--building-->
+    <canvas id="TCT" width="256" height="256"></canvas> <!--concrete-->
+    <canvas id="TCL" width="128" height="64"></canvas> <!--car light-->
+
+    <!--neon signs-->
+    <canvas id="TN0" width="256" height="512"></canvas> 
+    <canvas id="TN1" width="256" height="512"></canvas>
+    <canvas id="TN2" width="256" height="512"></canvas>
+    <canvas id="TN3" width="256" height="512"></canvas>
+    <canvas id="TN4" width="256" height="512"></canvas>
+    <canvas id="TN5" width="256" height="512"></canvas>
+    <canvas id="TN6" width="256" height="512"></canvas>
+    <canvas id="TN7" width="256" height="512"></canvas>
+    <canvas id="TN8" width="256" height="512"></canvas>
+    <canvas id="TN9" width="256" height="512"></canvas>
+</a-assets>
+
+<a-light color="#bf9dae" type="ambient" intensity="0.5" ></a-light>
+
+<a-sky id="sky" src="#TSK" material="fog: false"  radius="3500"></a-sky>
+<a-sky id="clouds" src="#TCD" blending="multiply" material="fog: false;" opacity="0.90"  radius="3450"></a-sky>
+
+<!--ground-->
+<!--a-mountain color="#574d51"></a-mountain--> <!-- I had to cut it out :'( -->
+<a-box id="ground" position="-5000 -1 0" rotation="-90 0 0" width="15000" height="15000" deep="2" color="#574d51"></a-box>
+
+
+<a-entity id="taxi" position="200 2500 4000" rotation="0 180 0">
+    <a-camera id="cam" far="4000" position="0 .3 0" look-controls="enabled: false" active rotation="0 0 0" active="false">
+    <a-light color="#feb94c" position="0 2.5 -3" distance="1550" intensity="15.5" decay="0.9" type="point"></a-light>
+    <a-box id="pb5" src="#TCT" color="#3388ff" repeat="0.06 0.05" position="-0.45 0 -0.25" width=".025" depth=".025" height="1.53" rotation=" 35 0 -15"></a-box>
+    <a-box id="pb5" src="#TCT" color="#3388ff" repeat="0.06 0.05" position=" 0.45 0 -0.25" width=".025" depth=".025" height="1.53" rotation=" 35 0  15"></a-box>
+    <a-entity id="compass" position="0 -1.2 -2.2"><a-box id="c3" position="0   0.07 0.25"  width="0.015" height="0.25" depth="0.015" rotation="-45 0 0" material="fog: false; color: #1be21b;"><a-box id="c3" position="0  -0.12 -0.12" width="0.015" height="0.25" depth="0.015" rotation=" 90 0 0" material="fog: false; color: #1be21b;"></a-entity>
+    </a-camera>
+</a-entity>
+</a-scene>
+<script> 
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Helpers
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/* Inspiration and some functions taken from > https://github.com/aurium/js13k-2018-pigeon */
+function rnd(a, b) 
+{
+    return (Math.random() * (b-a)) + a;
+}
+
+function rndi(a, b)
+{
+    return parseInt(rnd(a, b));
+}
+
+
+/*
+// random color: https://www.paulirish.com/2009/random-hex-color-code-snippets/
+function rndc(m)
+{
+    return '#' + rndi(1+m, 9) + rndi(1+m, 9) + rndi(1+m, 9);
+}
+*/
+
+
+// returns a random element from array a 
+function rnda(a)
+{
+    return a[Math.floor(Math.random()*a.length)];
+}
+
+
+// neon color: a random "neon" color!
+function ncol()
+{
+    return rnda(['#f31','#13f','#f3f','#111']);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Canvas & textures
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Make a texture
+function ctex(name, w, h)
+{
+    return {  
+        w: window[name].width = w, 
+        h: window[name].height = h,
+        ctx: window[name].getContext('2d') 
+    }
+}
+
+function cblur(ctx, w, c)
+{
+    ctx.shadowBlur = w;
+    ctx.shadowColor = c;
+}
+
+// t = the width of the box / line when in stroke mode
+function cbox(ctx, x, y, w, h, c, t)
+{
+    ctx.fillStyle = c;
+    ctx.strokeStyle = c;    
+    ctx.lineJoin = "round";
+    ctx.beginPath();
+    if(t)
+    {
+        ctx.rect(x,y,w,h);
+        ctx.lineWidth = "" + t;
+        ctx.stroke();
+    }
+    else
+    {
+        ctx.fillRect(x,y,w,h);
+    }
+}
+
+// canvas draw circle
+function ccircle(ctx, x, y, r, c)
+{
+  ctx.fillStyle = c;
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, 6.28, false);
+  ctx.fill();
+}
+
+// canvas draw ellipse
+function cellipse(ctx, x, y, r1, r2, c)
+{
+    ctx.fillStyle = c;
+    ctx.beginPath();    
+    ctx.ellipse(x, y, r1, r2, 0, 0, 6.28);
+    ctx.fill();
+}
+
+// canvas draw text. s = font size
+function ctext(ctx, x, y, text, s, c)
+{
+    ctx.fillStyle = c;
+    ctx.font = "" + s + "px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(text, x, y); 
+}
+
+function rgba(r, g, b, a)
+{
+    return 'rgba('+r+','+g+','+b+','+a+')';
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Globals & game related functions
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+// debug flag for obvious reasons
+//var DEBUG = false;
+
+// GLOBALS
+var GKEYS   = [],               // keys for pressing (keyboard handling)
+    GTV     = {x:1, y:0, z:0},  // for the taxi's movement - "global taxi vector" or something
+    GSCENE  = cam.sceneEl,      // SHOULD BE CONST ! - yay
+    GPA     = false,            // the game is paused 
+    GEN     = false,            // game enabled
+    GMSX    = null,             // instance of music (from zinedine). Needed to pause / upause properly
+    GSL     = null;             // "global solid list - list with all solids, updated once at init"
+
+
+// helper to make a-frame objects 
+window.make = function make(type, attrs, parent) 
+{
+    var el = document.createElement('a-'+type);
+    for (var att in attrs) el.setAttribute(att, attrs[att]);
+    if (parent) parent.appendChild(el);
+    else GSCENE.appendChild(el);
+    return el;
+}
+
+HTMLElement.prototype.make = function (type, attrs) 
+{
+    return make(type, attrs, this);
+}
+
+
+// Used to know whether we are focused or not - we need to pause our timers and so on - WE NEED TO PUT THE PAUSE THING !
+window.addEventListener("blur", function()
+{ 
+    GPA = true; 
+    if(GMSX && GMSX.clock) // if you "blur" while loading, this will crash :D
+    {
+        GMSX.clock.pause(); 
+    }
+    document.getElementById('pause').style.display = "block"; 
+});
+
+
+function unpause()
+{
+    GPA = false;
+    document.getElementById('pause').style.display = "none";
+    GMSX.clock.resume();
+}
+
+
+function restart()
+{
+    //zzfx(1,0,550,.25,0,.015,.1,0,.25); // blip -- we have no bytes left for this!
+    window.location.reload(true);
+}
+
+
+function gameover(reason)
+{
+    GMSX.clock.pause();
+    zzfx(1.5,0,150,1.295,.032,0,18,0,.19);  // BANG ! explosion
+    GEN = false; // the game is disabled
+    fx('#fbfbfb', 1);
+    zzfx(1,2,10,1.9,.11,0,0,11.7,2.35); // some happy game over noise
+    document.getElementById('over').style.display = "block"; 
+    var s = (GPP == 1) ? '' : 's'; // to be gramatically correct :D
+    document.getElementById('lol').innerHTML = reason + '<br>You got ' + GPP + ' waste ring' + s + '!';
+}
+
+
+window.requestAnimFrame = function() 
+{
+    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) 
+    {
+        window.setTimeout(callback, 1e3 / 60);
+    };
+}();
+
+
+document.addEventListener('keydown', (ev)=> { GKEYS[ev.key.toUpperCase()]=true; ev.stopPropagation() });
+document.addEventListener('keyup', (ev)=> { GKEYS[ev.key.toUpperCase()]=false; ev.stopPropagation() });
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// ZzFXmicro - Zuper Zmall Zound Zynth - MIT License - Copyright 2019 Frank Force lib > from https://github.com/KilledByAPixel/ZzFX
+////////////////////////////////////////////////////////////////////////////////////////////////
+zzfx_v=.5;zzfx_x=new AudioContext;zzfx=(e,f,a,b=1,d=.1,g=0,h=0,k=0,l=0)=>{let S=44100,P=Math.PI;a*=2*P/S;a*=1+f*(2*Math.random()-1);g*=1E3*P/(S**2);b=0<b?S*(10<b?10:b)|0:1;d*=b|0;k*=2*P/S;l*=P;f=[];for(var m=0,n=0,c=0;c<b;++c)f[c]=e*zzfx_v*Math.cos(m*a*Math.cos(n*k+l))*(c<d?c/d:1-(c-d)/(b-d)),m+=1+h*(2*Math.random()-1),n+=1+h*(2*Math.random()-1),a+=g;e=zzfx_x.createBuffer(1,b,S);a=zzfx_x.createBufferSource();e.getChannelData(0).set(f);a.buffer=e;a.connect(zzfx_x.destination);a.start();return a}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// _zinedine.js. Gutted and taken from > http://www.cappel-nord.de/webaudio/ 
+// (actually this one: http://www.cappel-nord.de/webaudio/acid-defender/)
+// I have no time to reformat it properly - I'm leaving it with the format of the original creator
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+// _zinedine.js
+
+// This makes me cry inside
+if (typeof Object.beget !== 'function') {
+    Object.beget = function(o) {
+        var F = function() {};
+        F.prototype = o;
+        return new F();
+    }
+};
+
+mixinTable = function(target, source) {
+    for(var key in source) {
+        target[key] = source[key];
+    };
+};
+
+ZL = {} // ZinedineLegacy
+
+ZL.setFilterType = function(node, type) {
+    type = type.toLowerCase();
+    node.type = type;
+}
+
+ZL.setOscType = ZL.setFilterType;
+
+
+Z = {}; // Zinedine
+
+Z.getContext = function() 
+{
+    return AudioContext;
+}
+
+
+Z.hasAPI = function() {
+    var ctx = Z.getContext();
+    return (typeof(ctx) == "function") || (typeof(ctx) == "object");
+}
+
+Z.ctx = undefined;
+
+Z.init = function(/*forceAudio*/) {
+    if(Z.hasAPI()) {
+        Z.ctx = new (Z.getContext())();
+        Z.ctx.listener.setPosition(0, 0, 0);
+    };
+    Z.generated = Z.initGenerated();
+}
+
+AudioEffect = function() 
+{
+    var that = {}
+    that.connect = function(node) {
+        that.output.connect(Z.H.getConnectionNode(node));
+    };       
+    that.isSubpatch = true;
+    return that;
+};
+
+// CHS - channel something
+CHS = function() {
+    var that = AudioEffect();
+    
+    that.nodes = [];
+    that.top = undefined
+        
+    that.addNode = function(name, node) {
+        that.input.disconnect();
+        that.input.connect(Z.H.getConnectionNode(node));
+        if(!that.top) {
+            node.connect(that.prefaderOutput);
+        } else {
+            node.connect(Z.H.getConnectionNode(that.top));
+        };
+        that.top = node;
+        that.nodes[name] = node;
+    };
+    
+    var gain = Z.ctx.createGain(),
+        in_gain = Z.ctx.createGain(),
+        prefader = Z.ctx.createGain();
+
+    gain.gain.value = 1;
+    that.output = gain;  
+    
+    in_gain.gain.value = 1;
+    that.input = in_gain;
+    
+    prefader.gain.value = 1;
+    that.prefaderOutput = prefader;
+        
+    in_gain.connect(prefader);
+    prefader.connect(gain);
+        
+    that.nodes["out"] = gain;
+    that.nodes["in"] = in_gain;
+    that.nodes["prefaderOutput"] = prefader;
+    
+    return that;
+};
+
+Channel = function() {
+    var that = CHS();
+    
+    that.event = function(e) {
+        var ev = MSE(e);
+        ev.node = that.input;
+        ev.channel = that.channel;
+        return ev;
+    };
+    
+    return that;
+};
+
+Bus = function() {
+    return CHS();
+};
+
+// MMX - main mixer or something
+MMX = function() {
+
+    var that = {}
+    that.master = CHS();
+    that.master.connect(Z.ctx.destination);
+    
+    that.channels = [];
+    that.busses = [];
+    that.sends = [];
+    
+    that.addChannel = function(name) {
+        var channel = Channel();
+        channel.connect(that.master.input);
+        that.channels[name] = channel;
+        return channel;
+    };
+    
+    that.addBus = function(name, source, gain) {
+        var bus = Bus();
+        bus.connect(that.master.input);
+        that.busses[name] = bus;
+        
+        if(source) {
+            var send = that.addSend(name + "-send", source, bus.input, gain);
+        };
+        
+        return bus;
+    };
+    
+    that.addSend = function(name, from, to, gainValue) {
+        gainValue = gainValue || 1;
+        var send = Z.ctx.createGain();
+        from.connect(send);
+        send.connect(to);
+        that.sends[name] = send;
+        send.gain.value = gainValue;
+        return send;
+    };
+       
+    return that;
+};
+
+// audio_gens.js
+
+Gen = {};
+
+Gen.OscillatorBurst = function(node, time, type, freq, duration, detune) {
+    detune = detune || 0;
+  
+    var osc = Z.ctx.createOscillator();
+    ZL.setOscType(osc, type);
+    Z.H.setParam(osc.frequency, freq);
+    Z.H.setParam(osc.detune, detune);   
+
+    osc.start(time);
+    osc.stop(time + duration);
+    
+    Z.H.connectIfNode(osc, node);
+    return osc;
+};
+
+Gen.OscillatorStackBurst = function(node, time, freq, types, detunes, amps, duration) {
+    var postGain = Z.ctx.createGain();
+    postGain.gain.setValueAtTime(1, time);
+    
+    for(var i = 0; i < types.length; i++) 
+    {        
+        var oscGain = Z.ctx.createGain();
+        Z.H.setParam(oscGain.gain, amps[i]);
+        
+        var osc = Gen.OscillatorBurst(oscGain, time, types[i], freq, duration, detunes[i]);
+        
+        oscGain.connect(postGain);
+    };
+    
+    Z.H.connectIfNode(postGain, node);
+    return postGain;
+};
+
+Gen.WhiteNoiseBurst = function(node, time, duration) {
+    
+    var player = Z.ctx.createBufferSource();
+    player.buffer = Z.generated.buffers.whiteNoise;
+    player.loop = true;
+    
+    Z.H.connectIfNode(player, node);
+    
+    var offset = Math.random() * Z.generated.buffers.whiteNoise.duration;
+    
+    player.start(time, offset, duration);
+    player.stop(time + duration);
+        
+    return player;
+};
+
+Gen.PercEnv = function(node, time, attack, decay, amp) {
+    if(amp == undefined) { amp = 1;};
+                
+    var gain = Z.ctx.createGain();
+    gain.gain.value = 0;
+    
+    gain.gain.setValueAtTime(0, time);
+    gain.gain.linearRampToValueAtTime(amp, time + attack);
+    gain.gain.linearRampToValueAtTime(0, time + attack + decay);
+    
+    Z.H.connectIfNode(gain, node);
+    
+    return gain;
+};
+
+Gen.EnvGain = function(node, env) {
+    var gain = Z.ctx.createGain();
+    Z.H.setParam(gain.gain, env);
+    Z.H.connectIfNode(gain, node);
+    return gain;
+};
+
+
+Gen.FilterSweep = function(node, time, type, start, stop, duration, q) {
+    q = q || 1;
+    
+    var filter = Z.ctx.createBiquadFilter();
+    
+    ZL.setFilterType(filter, type);
+    filter.Q.value = q;
+    filter.frequency.value = start;
+    filter.frequency.setValueAtTime(start, time);
+    filter.frequency.linearRampToValueAtTime(stop, time + duration);
+    
+    Z.H.connectIfNode(filter, node);
+    
+    return filter;
+};
+
+// effects.js
+
+FX = {};
+
+FX.PanPot = function(node, pan) {
+    var that = AudioEffect();
+    pan = pan || 0;
+    
+    var panner = Z.ctx.createPanner();
+    panner.panningModel = "equalpower";
+            
+    that.setPan = function(pan) {
+        var x = Math.sin(0.5*Math.PI * pan);
+        var z = -Math.cos(0.5*Math.PI * pan);
+        panner.setPosition(x, 0, z);
+    };
+    
+    that.setPan(pan);
+    
+    that.input = panner;
+    that.output = panner;
+    
+    Z.H.connectIfNode(panner, node);
+    
+    return that;
+};
+
+FX.FeedbackDelay = function(node, time, feedback) {
+    var that = AudioEffect();
+
+    var delay = Z.ctx.createDelay(time * 2);
+    delay.delayTime.value = time;
+    var fbGain = Z.ctx.createGain();
+    fbGain.gain.value = feedback;
+    
+    delay.connect(fbGain);
+    fbGain.connect(delay);
+    
+    that.feedback = fbGain.gain;
+    that.delayTime = delay.delayTime;
+    
+    that.input = delay;
+    that.output = delay;
+    
+    Z.H.connectIfNode(delay, node);
+        
+    return that;
+};
+
+FX.Filter = function(node, type, freq, q) {
+    var that = AudioEffect();
+    
+    q = q || 1;
+    freq = freq || 350;
+    
+    var biquad = Z.ctx.createBiquadFilter();
+    ZL.setFilterType(biquad, type);
+    
+    that.freq = biquad.frequency;
+    that.Q = biquad.Q;
+    
+    that.freq.value = freq;
+    that.Q.value = q;
+    
+    that.input = biquad;
+    that.output = biquad;
+    
+    Z.H.connectIfNode(biquad, node);
+    
+    return that;
+};
+
+
+FX.WaveShaper = function(node, preGain, postGain, array) {
+    
+    var that = AudioEffect();
+    
+    var preGainNode = Z.ctx.createGain();
+    preGainNode.gain.value = preGain;
+    
+    var postGainNode = Z.ctx.createGain();
+    postGainNode.gain.value = postGain;
+    
+    var shaper = Z.ctx.createWaveShaper();
+    shaper.curve = array;
+    
+    preGainNode.connect(shaper);
+    shaper.connect(postGainNode);
+    
+    that.output = postGainNode;
+    that.input = preGainNode;
+    Z.H.connectIfNode(that.output, node);
+    
+    that.preGain = preGainNode.gain;
+    that.postGain = postGainNode.gain;
+    
+    return that;
+}
+
+FX.Compressor = function(node, threshold, knee, ratio, reduction, attack, release) {
+    var that = AudioEffect();
+    threshold = threshold || -12;
+    knee = knee || 30;
+    ratio = ratio || 12;
+    attack = attack || 0.003;
+    release = release || 2;
+    
+    var comp = Z.ctx.createDynamicsCompressor();
+    comp.threshold.value = threshold;
+    comp.knee.value = knee;
+    comp.ratio.value = ratio;
+    comp.attack.value = attack;
+    comp.release.value = release;
+    
+    that.output = comp;
+    that.input = comp;
+    Z.H.connectIfNode(that.output, node);  
+    
+    return that;
+};
+
+// envelopes.js
+
+var Env = {};
+
+Env.BaseClass = function() {
+    var that = {};
+    that.isEnv = true;
+    that.canApplyFunction = true;
+        
+    return that;
+};
+
+Env.DoBaseClass = function() {
+    var that = {};
+    that.isParamSetter = true;
+    that.canApplyFunction = true;
+
+    
+    return that;
+};
+
+
+Env.NLine = function(startValue, stopValue, length, paramFunction) {
+    var that = Env.BaseClass();
+    
+    that.create = function(ev) {
+        return Env.DoNLine(startValue, stopValue, ev.startTime, ev.startTime + length, paramFunction);
+    };
+    
+    return that;
+};
+
+
+Env.XLine = function(startValue, stopValue, length) {
+    if(Z.H.getType(startValue) == "object") {return Env.XLine(startValue.startValue, startValue.stopValue, startValue.length).create(startValue).set(startValue.param);};
+    return Env.NLine(startValue, stopValue, length, "exponentialRampToValueAtTime");
+};
+
+
+Env.DoNLine = function(startValue, stopValue, startTime, stopTime, paramFunction) {
+    var that = Env.DoBaseClass();
+    
+    that.applyFunction = function(func) {
+        return Env.DoNLine(func(startValue), func(stopValue), startTime, stopTime, paramFunction);
+    };
+    
+    that.set = function(param) {
+        param.setValueAtTime(startValue, startTime);
+        param[paramFunction](stopValue, stopTime);
+    };
+    
+    that.length = stopTime - startTime;
+       
+    return that;
+};
+
+
+Env.Custom = function(values, times, types) {
+    if(Z.H.getType(values) == "object") {return Env.Custom(values.values, values.times, values.types).create(values).set(values.param);};
+
+    var that = Env.BaseClass();  
+    that.create = function(ev) {
+        return Env.DoCustom(values, times, types, ev.startTime);
+    };   
+    return that;
+}
+
+// mehr types durch buffer (?)
+Env.DoCustom = function(values, times, types, startTime) {
+    var that = Env.DoBaseClass();
+        
+    that.set = function(param) {
+        var currentTime = startTime;
+        param.setValueAtTime(values[0], currentTime);
+        
+        for(var i = 0; i < values.length-1; i++) {
+            currentTime = currentTime + times[i];
+            if(types[i] == "exp") {
+                param.exponentialRampToValueAtTime(values[i+1], currentTime);
+            } else { // "lin" is default
+                param.linearRampToValueAtTime(values[i+1], currentTime);
+            };
+        };
+    };
+    
+    var length = 0;
+    for(var i = 0; i < times.length; i++) {
+        length = length + times[i];
+    };
+    that.length = length;
+    
+    return that;
+};
+
+// some SC basics
+
+Env.Perc = function(attackTime, releaseTime, level, baseLevel) {
+    if(Z.H.getType(attackTime) == "object") {return Env.Perc(attackTime.attackTime,attackTime.releaseTime, attackTime.level, attackTime.baseLevel).create(attackTime).set(attackTime.param);};
+
+    level = level || 1;
+    baseLevel = baseLevel || 0;
+    return Env.Custom([baseLevel, level, baseLevel], [attackTime, releaseTime], ["lin", "lin"]);
+};
+
+EventAgent = function(quant, clock) {
+    var that = {};
+    
+    quant = quant || 4;
+    clock = clock || Z.defaultQuantClock;    
+    that.quant = quant;
+    that.clock = clock;
+    that.finished = false;    
+    that.nextPollTime = clock.nextQuant(quant);
+    
+    that.update = function() {};
+    that.emit = function() {return undefined};   
+    that.poll = function() {
+        var beats = clock.currentBeats();
+        
+        if(beats < that.nextPollTime || that.finished) {
+            return undefined;
+        } else {
+            return that.emit();
+        };
+    };
+    
+    return that;
+};
+
+NOPAgent = function(quant, clock) {
+    var that = EventAgent(quant, clock);
+    
+    that.nextPollTime = Infinity;
+    that.poll = function() {};
+    
+    return that;
+}
+
+AgentProxy = function(agent, quant, clock) {
+    var that = EventAgent(quant, clock);
+   
+    that.agent = agent;
+    that.nextAgent = undefined;
+    
+    that.poll = function() {
+        return that.agent.poll()
+    };
+    
+    that.update = function() {      
+        if(that.nextAgent) {
+            that.nextAgent.update();
+            if(that.nextAgent.nextPollTime <= that.agent.nextPollTime) {
+                that.agent = that.nextAgent;
+                that.nextAgent = undefined;
+            };
+        };
+        
+        agent.update();
+        that.nextPollTime = that.agent.nextPollTime;
+    };
+    
+    that.replace = function(agent) {
+        that.nextAgent = agent;
+    };
+    
+    return that;
+};
+
+
+FuncAgent = function(func, quant, clock) {
+    var that = EventAgent(quant, clock);
+    
+    that.emit = function() {
+        var event = MSE({clock: that.clock, start: that.nextPollTime});
+        event = func(event);
+        if(event) {
+            that.nextPollTime = that.nextPollTime + event.dur;
+            return event;
+        } 
+    };
+    
+    return that;
+};
+
+PatternAgent = function(patternEvent, quant, clock) {
+    quant = patternEvent.quant || quant;    
+    var that = EventAgent(quant, clock);
+
+    var streamEvent = {};
+    for(key in patternEvent) {
+        streamEvent[key] = Z.patterns.H.buildStream(patternEvent[key]);
+    };  
+    
+    that.emit = function() {
+        var event;
+        
+        if(streamEvent.channel) {
+            var channel = streamEvent.channel.next();
+            event = channel.event({clock: that.clock, start:that.nextPollTime});
+        } else {
+            event = MSE({clock: that.clock, start: that.nextPollTime});
+        };
+        
+        for(key in streamEvent) {
+            var val = streamEvent[key].next(event);
+            event[key] = val;
+        };
+        
+        that.nextPollTime = that.nextPollTime + event.dur;
+        return event;
+    };
+    
+    return that;
+};
+
+AgentManager = function() {
+    var that = {};
+    
+    that.agents = [];
+    
+    that.addAgent = function(key, agent) {
+        that.agents[key] = agent;
+    };
+    
+    that.update = function() {
+        for(key in that.agents) {
+            var agent = that.agents[key];
+            agent.update();
+            while(true) {
+                var event = agent.poll();
+                if(event) {
+                    event.play();
+                } else {
+                    break;
+                };
+            };
+        };
+    };
+    
+    return that;
+};
+
+
+Z.initGenerated = function() {
+    that = {};
+    
+    that.buffers = {};
+    that.arrays = {};
+    
+    var sr = 44100,
+        noiseSize = 44100 * 4,
+        lOscBaseFreq = noiseSize / 441
+    
+    that.sampleRate = 44100;    
+    that.noiseSize = noiseSize;
+    that.lOscBaseFreq = lOscBaseFreq;
+        
+    // White Noise Buffer
+    that.buffers.whiteNoise = Z.ctx.createBuffer(1, noiseSize, sr);
+    var whiteNoise = that.buffers.whiteNoise.getChannelData(0);
+
+    for(var i = 0; i < noiseSize; i++) {
+        whiteNoise[i] = Math.random() * 2 - 1;
+    };
+    
+    // LFSaw Buffer
+    that.buffers.lfsaw = Z.ctx.createBuffer(1, noiseSize, sr);
+    var lfs = that.buffers.lfsaw.getChannelData(0),
+        delta = 1.0 / (noiseSize / 2 / lOscBaseFreq),
+        value = 0;
+
+    for(var i = 0; i < noiseSize; i++) {
+        value = value + delta;
+        if(value > 1.0) {
+            value = value - 2.0;
+        };
+        lfs[i] = value;
+    };
+    
+    // LFTri Buffer, broken
+    that.buffers.lftri = Z.ctx.createBuffer(1, noiseSize, sr);
+    var lft = that.buffers.lftri.getChannelData(0),
+        delta = 1.0 / (noiseSize / 4 / lOscBaseFreq),
+        value = 0;
+
+    for(var i = 0; i < noiseSize; i++) {
+        value = value + delta;
+        if(Math.abs(value) > 1.0) {
+            delta = delta * -1;
+            /*
+            if(value > 1) { value = value - (value - 1) };
+            if(value < -1) { value = value - (value + 1) };
+            */
+            if(value > 1) { value = 1; };
+            if(value < -1) { value = -1; };
+        };
+        lft[i] = value;
+    };
+    
+    // LFPulse Buffer, broken
+    that.buffers.lfpulse = Z.ctx.createBuffer(1, noiseSize, sr);
+    var lfp = that.buffers.lfpulse.getChannelData(0),
+        value = 1.0,
+        smplsPerPhase = noiseSize / lOscBaseFreq / 2,
+        cntr = 0;
+    
+    for(var i = 0; i < noiseSize; i++) {
+        lfp[i] = value;
+        cntr = cntr + 1;
+        if(cntr > smplsPerPhase) {
+            cntr = 0;
+            value = value * -1;
+        };
+    };
+    
+    // LFNoise Buffer
+    that.buffers.lfnoise = Z.ctx.createBuffer(1, noiseSize, sr);
+    var lfn = that.buffers.lfnoise.getChannelData(0),
+        value = Math.random(),
+        smplsPerPhase = noiseSize / lOscBaseFreq / 8,
+        cntr = 0;
+
+    for(var i = 0; i < noiseSize; i++) {
+        lfn[i] = value;
+        cntr = cntr + 1;
+        if(cntr >= smplsPerPhase) {
+            cntr = 0;
+            value = Math.random() * 2 - 1;
+        };
+    };
+    
+    // Silent
+    that.buffers.silent = Z.ctx.createBuffer(1, 4096, sr);
+    var lfs = that.buffers.silent.getChannelData(0);
+    
+    // C paranoia
+    for(var i = 0; i < 4096; i++) {
+        lfs[i] = 0;
+    }
+    
+    
+    // Sine Envelope
+    that.arrays.sine = new Float32Array(noiseSize);
+    for(var i = 0; i < noiseSize; i++) {
+        that.arrays.sine[i] = Math.sin(Math.PI * i / noiseSize);
+    };
+    
+    // Tanh
+    that.arrays.tanh = new Float32Array(noiseSize);
+    for(var i = 0; i < noiseSize; i++) {
+        var arg = (i / noiseSize) * 10 - 5;
+        that.arrays.tanh[i] = (Math.exp(arg) - Math.exp(-arg)) / (Math.exp(arg) + Math.exp(-arg));
+    };
+    
+    // Logistic Function
+    // http://en.wikipedia.org/wiki/Logistic_function
+    that.arrays.logistic = new Float32Array(noiseSize);
+    for(var i = 0; i < noiseSize; i++) {
+        var arg = (i / noiseSize) * 12 - 6;
+        that.arrays.logistic[i] = 1 / (1 + Math.exp(-i));
+    };
+    
+    return that;
+};
+
+// helpers.js
+
+Z.H = {};
+
+// http://stackoverflow.com/questions/7390426/better-way-to-get-type-of-a-javascript-variable
+Z.H.getType = function() {
+    var TYPES = {
+        'undefined'        : 'undefined',
+        'number'           : 'number',
+        'boolean'          : 'boolean',
+        'string'           : 'string',
+        '[object Function]': 'function',
+        '[object RegExp]'  : 'regexp',
+        '[object Array]'   : 'array',
+        '[object Date]'    : 'date',
+        '[object Error]'   : 'error'
+    };
+    var TOSTRING = Object.prototype.toString;
+    
+    return function(o) {
+        return TYPES[typeof o] || TYPES[TOSTRING.call(o)] || (o ? 'object' : 'null');
+    };
+}();
+
+Z.H.mixinObject = function(target, source) {
+    for(var key in source) {
+        target[key] = source[key];
+    };
+};
+
+Z.H.getConnectionNode = function(obj) {
+    if(obj.isSubpatch) {
+        return obj.input;
+    } else {
+        return obj;
+    }
+};
+
+Z.H.connectIfNode = function(player, node) {
+    if(node) {
+        node = Z.H.getConnectionNode(node);
+        player.connect(node);
+    };
+}
+
+Z.H.setParam = function(param, value) {
+    if(value.isParamSetter) {
+        value.set(param);
+    } else {
+        param.value = value;
+    };
+};
+
+Z.H.tryApplyFunction = function(func, value) {
+    if(typeof(value) == "object" && value.canApplyFunction) {
+        return value.applyFunction(func);
+    } else {
+        return func(value);
+    };
+};
+
+// instruments.js
+
+Instr = {};
+
+Instrument = function(ev, defaults) {
+    var that = AudioEffect();
+    
+    that.output = Z.ctx.createGain();
+    that.input = that.output;
+    that.output.gain.value = ev.amp;
+    
+    if(ev.pan) {
+        var pan = FX.PanPot(that.input, ev.pan);
+        that.input = pan.input;
+    };
+    
+    if(ev.node) {
+        that.output.connect(ev.node);
+    };
+    
+    if(defaults) {
+        for(key in defaults) {
+            if(ev[key] === undefined) {
+                ev[key] = defaults[key];
+            };
+        };
+    };
+    
+    if(ev.env != undefined) {
+        if(ev.env.length != undefined) {
+            ev.len = ev.env.length;
+        };
+    };
+    
+    return that;
+};
+
+
+Instr.WNHat = function(ev) {
+    var that = Instrument(ev, {fltrStart: 12000, fltrStop: 5000, fltrLen: 0.05, fltrQ: 5}),
+        env = Gen.PercEnv(that, ev.startTime, 0.00001, ev.len),
+        filter = Gen.FilterSweep(env, ev.startTime, "HIGHPASS", ev.fltrStart, ev.fltrStop, ev.fltrLen, ev.fltrQ);
+
+    Gen.WhiteNoiseBurst(filter, ev.startTime, ev.len);
+    
+    return that;
+};
+
+
+Instr.OSCStackFilter = function(ev) {
+    var that = Instrument(ev, {
+        types: ["SAWTOOTH", "SQUARE", "SAWTOOTH"], detunes: [0,10, 14], amps: [0.5, 0.3, 0.2], 
+        attack: 0.0001, decay: 0.2,
+        filter: Env.XLine(100, 2000, 0.1).create(ev), filterQ: 10, filterType: "LOWPASS",
+        env: Env.Perc(0.001, ev.len - 0.001).create(ev)
+    });
+    
+    var fltr;
+    if(ev.filter) { // skip, if filter is false
+        fltr = FX.Filter(that, ev.filterType, 100, ev.filterQ);
+        Z.H.setParam(fltr.freq, ev.filter);
+    } else {
+        lfltrpf = that;
+    };
+    
+    var env = Gen.EnvGain(fltr, ev.env);
+    
+    Gen.OscillatorStackBurst(env, ev.startTime, ev.freq, ev.types, ev.detunes, ev.amps, ev.attack + ev.decay);
+    
+    return that;
+};
+
+Instr.LFOscillator = function(ev) {
+    var that = Instrument(ev, {
+        env: Env.Perc(0.001, ev.len - 0.001).create(ev)
+    })
+        
+    var envGain = Gen.EnvGain(that, ev.env),
+        player = Z.ctx.createBufferSource();
+
+    player.buffer = ev.buffer;
+    player.loop = true;    
+    player.start(ev.startTime);
+    player.stop(ev.startTime + ev.len);
+        
+    var rate = Z.H.tryApplyFunction(function(freq) {
+        return (freq / Z.generated.lOscBaseFreq) * (Z.generated.noiseSize / Z.generated.sampleRate);
+    }, ev.freq);
+    
+    
+    Z.H.setParam(player.playbackRate, rate);
+    Z.H.connectIfNode(player, envGain);
+    
+    return that;
+};
+
+
+Z.patterns = {};
+
+// H == helpers
+Z.patterns.H = function() {
+    var that = {};
+    
+    that.buildStream = function(obj) {
+        if(Z.H.getType(obj) == "object" && obj.isPattern) {
+            return obj.asStream();
+        } else {
+            return Z.patterns.Pconst(obj).asStream();
+        };
+    };
+    
+    that.buildStreamArray = function(arr) {
+        var ret = [];
+        for(var i = 0; i < arr.length; i++) {
+            ret.push(that.buildStream(arr[i]));
+        };
+        return ret;
+    };
+
+    return that;
+}();
+
+var Pattern = function() {
+    var that = {};
+    that.isPattern = true;    
+    
+    that.trace = function(x) {return Z.patterns.Ptrace(that, x);};
+    that.mul = function(x) {return Z.patterns.Pmul(that, x);};
+    
+    return that;
+};
+
+var PatternStream = function(pattern) {
+    var that = {};
+    that.isStream = true;    
+    return that;
+};
+
+Z.patterns.Pconst = function(value) {
+    var that = Pattern();   
+    that.asStream = function() {
+        var stream = PatternStream(that);
+        stream.next = function(ev) {
+            return value;
+        };
+        return stream;
+    };
+    return that;
+};
+
+Z.patterns.Place = function(sequence, times) {
+    times = times || Infinity;
+    var that = Pattern();
+    that.asStream = function() {
+        var stream = PatternStream(that);
+        var seq = Z.patterns.H.buildStreamArray(sequence);
+        var i = -1;
+        stream.next = function(ev) {
+            i = i + 1;
+            if(i < times * seq.length) {
+                return seq[i%seq.length].next();
+            } 
+        };
+        return stream;
+    };
+    return that;
+};
+
+Z.patterns.PbinOp = function(pattern, x, op) {
+    var that = Pattern();
+    that.asStream = function() {
+        var stream = PatternStream(that);
+        var inStream = Z.patterns.H.buildStream(pattern);
+        var xStream = Z.patterns.H.buildStream(x);
+        stream.next = function(ev) {
+            switch(op) {
+                case "*":
+                    return inStream.next(ev) * xStream.next(ev);
+            };
+        };
+        return stream;
+    };
+    return that;    
+};
+
+
+Z.patterns.Pmul = function(pattern, mul) {
+    return Z.patterns.PbinOp(pattern, mul || 1, "*");
+};
+
+
+Z.patterns.Pwhite = function(min, max) {
+    var that = Pattern();
+    that.asStream = function() {
+        var stream = PatternStream(that);
+        stream.next = function(ev) {
+            return min + (Math.random() * (max - min));
+        };
+        return stream;
+    };
+    return that;
+};
+
+
+QuantClock = function(tempo, latency, pauseOnBlur, setAsDefault) {
+    if(pauseOnBlur === undefined) { pauseOnBlur = true; }
+    tempo = tempo || 120;
+    latency = latency || 0.2;
+
+    var that = {}, 
+        beatsPerBar = 4,
+        pausedTime = 0,
+        clientCompensation = 0.035;
+    
+    that.isPaused = false;
+    
+    that.setTempo = function(tempo) {
+        that.bpm = tempo;
+        that.bps = tempo / 60;
+    };
+    that.setTempo(tempo);
+    
+    that.update = function(time) {
+        if(!that.isPaused) {
+            that.currentTime = time || (Z.ctx.currentTime + latency);
+            that.currentClientTime = that.currentTime - latency + clientCompensation;
+            that.currentClientBeatTime = that.currentClientTime - pausedTime;
+            that.currentClientBeat = that.currentClientBeatTime * that.bps;
+        };
+    };
+    
+    // TODO: should latency be part of the rebase process?  
+    that.rebase = function(beats) {
+        beats = beats || 0;
+        that.startTime = Z.ctx.currentTime - (beats / that.bps);
+        that.update();
+    }
+    that.rebase(0); // start now
+
+    that.relativeStartTime = function() {
+        return that.startTime + pausedTime;
+    }
+
+    // 1 = beat, 0.25 = bar, 8 = eight ...
+    that.nextDivision = function(div, beats) {
+        div = div || 1;
+        beats = beats || that.currentBeats();
+        return Math.ceil(beats * div) / div;
+    };
+    
+    that.audioTime = function(beats) {
+        return that.relativeStartTime() + (beats / that.bps);
+    };
+    
+    that.absoluteAudioClientBeatTime = function(beats) {
+        return that.startTime + (beats / that.bps) - latency + clientCompensation;
+    };
+        
+    that.nextBar = function() {return that.nextDivision(1 / beatsPerBar)};
+    that.nextBeat = function() {return that.nextDivision(1)};
+    
+    that.currentBeats = function() {
+        return (that.currentTime - that.relativeStartTime()) * that.bps;
+    };
+    
+    that.nextQuant = function(quant, beats) {
+        var q = Quant(quant);
+        return that.nextDivision(1 / q.quant, beats) + q.phase + q.offset;
+    };
+    
+    // Pausing
+    var lastPause = 0;
+    that.pause = function(e) {
+        lastPause = Z.ctx.currentTime;
+        that.isPaused = true;
+    };
+    
+    that.resume = function(e) {
+        pausedTime = pausedTime + (Z.ctx.currentTime - lastPause);
+        that.isPaused = false;
+    };
+    
+    if(pauseOnBlur) {
+        window.addEventListener("blur", that.pause);
+        window.addEventListener("focus", that.resume);
+    }
+    
+    if(!Z.defaultQuantClock || setAsDefault) {
+        Z.defaultQuantClock = that;
+    }
+
+    return that;
+};
+
+var Quant = function(quant, phase, offset) {
+    if(quant.isQuant) {
+        return quant;
+    };
+    
+    phase = phase || 0;
+    offset = offset || 0;
+    
+    return {
+        quant: quant,
+        phase: phase,
+        offset: offset,
+        isQuant: true
+    };
+};
+
+
+var MSEHelpers = function() {
+    var that = {};
+    
+    var scales = {
+        "major": [0, 2, 4, 5, 7, 9, 11],
+        "minor": [0, 2, 3, 5, 7, 8, 10],
+        "minorPentatonic": [0, 3, 5, 7, 10],
+        "majorPentatonic": [0, 2, 4, 7, 9],
+        "blues": [0, 3, 5, 6, 7, 10]
+    };
+    
+    
+    // TODO: this is not really right, negative degrees?
+    that.degree2midi = function(e) {
+        var func = function(degree) {
+            var scale = scales[e.scale],
+                midi = (12 * e.octave) + e.root + scale[degree % scale.length];
+            
+            if(degree >= scale.length) {
+                midi = midi + (Math.floor(degree / scale.length) * 12);
+            } 
+
+            return midi;
+        };
+        e.midi = Z.H.tryApplyFunction(func, e.degree);
+    };
+    
+    that.midi2freq = function(e) {
+        var func = function(midi) {
+            return Math.pow(2, (midi - 69) / 12) * e.standard_pitch;
+        };
+        
+        e.freq = Z.H.tryApplyFunction(func, e.midi);
+    };
+    
+    that.processKeys = function(e) {
+        
+        if(e.dur != undefined && e.len == undefined) {
+            e.len = (e.dur * e.sustain) / e.clock.bps;
+        };
+        
+        if(e.midi == undefined) {
+            that.degree2midi(e);
+        };
+        if(e.freq == undefined && e.midi != undefined) {
+            that.midi2freq(e);
+        };
+            
+        e.start = e.start + e.offset;
+        
+        if(e.startTime == undefined) {
+            e.startTime =  e.clock.audioTime(e.start);
+        };      
+    };
+    
+    return that;
+}();
+
+// MusicEvent
+MSE = function() {
+    var proto = {
+        root: 0,
+        scale: "minor",
+        octave: 3,
+        standard_pitch: 440,
+        degree: 0,
+        amp: 1,
+        sustain: 1,
+        dur: 1,
+        offset: 0
+    };
+    
+    return function(ev) {
+        var that = Object.beget(proto);
+        
+        if(ev) {
+            Z.H.mixinObject(that, ev);
+        };
+        
+        // add timing
+        that.clock = Z.defaultQuantClock;
+        
+        that.process = function() {
+            MSEHelpers.processKeys(that);
+            return that;
+        };
+        
+        that.play = function(quant) {
+            if(ev.quant) {
+                quant = ev.quant;
+            };
+                        
+            if(quant) {
+                that.start = that.clock.nextQuant(quant, that.start);
+            };
+            
+            if(!that.node && that.channel) {
+                that.node = that.channel.input;
+            };
+            
+            that.process();
+            
+            // build paramSet objects from envelopes
+            for(key in that) {
+                if(typeof(that[key]) == "object") {
+                    if(that[key].isEnv) {
+                        that[key] = that[key].create(that);
+                    };
+                };
+            };
+            
+            if(that.rest != true) {
+                that.action(that);
+            };
+        };
+        
+        return that;
+    };
+}();
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Acid defender something - from zinedine - see the links above
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+// OUR KICK, SUPER IMPORTANT !!! (the original acid defender used .wavs for snares and kicks :O :/)
+MBKick = function(ev) {
+    var that = Instrument(ev, {attack: 0.0001, decay: 0.17, fmul:4}),
+        env = Gen.PercEnv(that, ev.startTime, ev.attack, ev.decay),
+        sig = Gen.OscillatorBurst(env, ev.startTime, "SINE", ev.freq, ev.attack + ev.decay);
+    
+    return that;
+}
+
+
+AcidProto = function() 
+{
+    var that = {},
+        tempo = 2.0,
+        clock = QuantClock(tempo * 60, 0.1, false); // don't pause on blur - we pause manually
+        fd = AcidProtoState(that, 16,  12),
+        mx = MMX();
+
+    that.clock = clock;
+    that.fd = fd;
+               
+    (function() {
+    
+        mx.master.addNode("filter", FX.Filter(false, "HIGHPASS", 10, 4));
+        mx.master.addNode("comp", FX.Compressor(false));
+   
+        mx.addChannel("kick");
+        mx.channels.kick.addNode("filter", FX.Filter(false, "LOWPASS", 8000, 1.5));
+        mx.channels.kick.output.gain.value = 1;
+        mx.channels.kick.addNode("dist", FX.WaveShaper(false, 0.53, 0.85, Z.generated.arrays.tanh));        
+
+        mx.addChannel("hat");
+        mx.channels.hat.output.gain.value = 0.7;
+
+        var hatBus = mx.addBus("hatBus", mx.channels.hat, 0.4),
+            bassBus = mx.addBus("bassBus", mx.channels.bass, 0.50),
+            noiseBus = mx.addBus("noiseBus", mx.channels.noise, 1),
+            revBus = mx.addBus("revBus");
+        
+        hatBus.addNode("fb", FX.FeedbackDelay(false, 3/4/tempo, 0.2));
+        hatBus.addNode("filter", FX.Filter(false, "LOWPASS", 2000));
+        
+        mx.addChannel("snare");
+        mx.channels.snare.output.gain.value = 0.6;
+        
+        mx.addChannel("bass");
+        mx.channels.bass.addNode("dist", FX.WaveShaper(false, 0.4, 0.75, Z.generated.arrays.tanh));
+        mx.channels.bass.addNode("lpf", FX.Filter(false, "LOWPASS", 8000, 1));
+
+        bassBus.addNode("fb", FX.FeedbackDelay(false, 2/4/tempo, 0.35));
+        bassBus.addNode("filter", FX.Filter(false, "HIGHPASS", 1000));
+        
+        mx.addChannel("noise");
+        mx.channels.noise.addNode("lpf", FX.Filter(false, "LOWPASS", 12000, 5));
+        noiseBus.addNode("fb", FX.FeedbackDelay(false, 3/8/tempo, 0.45));
+        noiseBus.addNode("filter", FX.Filter(false, "LOWPASS", 4000));
+               
+        revBus.addNode("filter", FX.Filter(false, "LOWPASS", 6000));
+        mx.addSend("hatRev", mx.channels.hat.prefaderOutput, revBus.input, 0.2);
+        mx.addSend("snareRev", mx.channels.snare.prefaderOutput, revBus.input, 0.05);
+        mx.addSend("bassRev", mx.channels.bass.prefaderOutput, revBus.input, 0.1);
+    })();
+
+
+    that.mx = mx;
+    var manager = AgentManager(), 
+        lastTime = clock.currentClientBeatTime;
+
+
+    // Main "master" update: decide what to play next
+    that.update = function() {
+
+        clock.update();
+        var dt = clock.currentClientBeatTime - lastTime;
+        lastTime = clock.currentClientBeatTime;        
+        fd.update(dt);       
+
+        // reset the song !
+        if(fd.count > 38) fd.count = 0;
+
+
+        // kicks
+        if(fd.count % 6 == 0) // 6 12 18 24 30 36 # 42
+        {
+            that.ctrl('kick', 'wildKick');
+        }
+        else if(fd.count % 13 == 0) // 13 26 # 39
+        {
+            that.ctrl('kick', 'rest');
+        }
+
+
+        // snare
+        if(fd.count % 6 == 0)    // 6 12 18 24 30 36 # 42
+        {
+            that.ctrl('snare', 'discoSnare');
+        }
+        else if(fd.count % 14 == 0 || fd.count == 31) // 14 28 # 42
+        {
+            that.ctrl('snare', 'rest');
+        }
+
+
+        // hats
+        if(fd.count % 8 == 0) // 8 16 24 32 # 40
+        {
+            that.ctrl('hat', 'discoHats');
+        }
+        else if(fd.count % 18 == 0) // 18 36 # 54
+        {
+            that.ctrl('hat', 'quarterHats');
+        }
+        //else if(field.count % 22 == 0) // 22 # 44
+        //{
+        //    that.ctrl('hat', 'quarterHatsDisco');
+        //}        
+        else if(fd.count % 10 == 0) // 10 20 30 # 40
+        {
+            that.ctrl('hat', 'rest');
+        }
+
+        // LEVEL FX
+        if(fd.count % 8 == 0)
+        {
+            that.ctrl('filter', '' + rndi(1, 5));
+        }
+
+        manager.update();
+    };
+    
+    // patterns
+    that.pat = {};
+
+    that.pat.fourOnFloor = {
+        channel: mx.channels.kick,
+        action: MBKick,
+        freq: Env.XLine(240, 60, 0.02),
+        amp: 1.2
+    };
+
+    
+    that.pat.rest = {
+        dur: 1,
+        rest: true
+    };
+
+    
+    that.pat.discoHats = {
+        action: Instr.WNHat,
+        sustain: 0.32,
+        fltrStart: Z.patterns.Pwhite(8000, 6000),
+        fltrLen: 0.15,
+        dur: 0.5,
+        rest: Z.patterns.Place([true, false]),
+        channel: mx.channels.hat,
+        quant: Quant(4)
+    };
+    
+
+    that.pat.discoSnare = {
+        action: Instr.LFOscillator,
+        buffer: Z.generated.buffers.lfnoise,
+        env: Env.Perc(0.01, 0.04),
+        channel: mx.channels.snare,
+        freq: Env.XLine(4000, 1000, 0.055),
+        amp: 0.8,
+        dur: 2,
+        rate: 1.7,
+        quant: Quant(4, 1)
+    };
+
+    
+    that.pat.quarterHats = {
+        action: Instr.WNHat,
+        sustain: Z.patterns.Place([0.2, 0.15, 0.3, 0.15]).mul(0.85),
+        pan: Z.patterns.Place([Z.patterns.Pwhite(-0.5, 0.5), Z.patterns.Pwhite(-0.5, 0.5), 0, Z.patterns.Pwhite(-0.5, 0.5)]),
+        fltrStart: Z.patterns.Pwhite(9000, 12000),
+        fltrLen: 0.05,
+        dur: 1/4,
+        amp: 1,
+        channel: mx.channels.hat,
+    };
+    
+    that.pat.quarterHatsDisco = {
+        action: Instr.WNHat,
+        sustain: Z.patterns.Place([0.3, 0.05, 0.9, 0.05]),
+        pan: Z.patterns.Place([Z.patterns.Pwhite(-0.5, 0.5), Z.patterns.Pwhite(-0.5, 0.5), 0, Z.patterns.Pwhite(-0.5, 0.5)]),
+        fltrStart: Z.patterns.Pwhite(9000, 12000),
+        fltrLen: 0.05,
+        dur: 1/4,
+        channel: mx.channels.hat,
+    };
+    
+    that.pat.wildKick = {
+        // original
+        //dur: Z.patterns.Place([0.75, 0.25, 1, 1, 1, 1, 1, 1, 0.5, 0.25, 0.25]),
+        //amp: Z.patterns.Place([1,    0.25, 1, 1, 1, 1, 1, 1, 1,   1,    0.7]),
+
+        // monster
+        dur: Z.patterns.Place([0.75, 0.25, 1, 1, 1,   1, 1, 1, 0.5, 0.25, 0.25,     1, 1, 1, 1,            1, 1, 0.25, 0.25, 0.5, 1,      1, 1, 1, 1,     1, 1, 1, 0.5, 0.25, 0.25]),
+        amp: Z.patterns.Place([1,    0.25, 1, 1, 1,   1, 1, 1, 1,   1,    0.7,      1, 1, 0.75, 0.25, 1,   1, 1, 0.25, 0.25, 0.5, 1,      1, 1, 1, 1,     1, 1, 1, 0.5, 0.25, 0.25]),
+
+        channel: mx.channels.kick,
+        action: MBKick,
+        freq: Env.XLine(240, 60, 0.02),
+        amp: 1.2        
+    }
+
+    
+    var kickPattern = that.pat.fourOnFloor;
+    kickPattern = that.pat.rest;
+    
+    manager.addAgent("bass", AgentProxy(FuncAgent(fd.visit, 4, clock)));
+    manager.addAgent("kick", AgentProxy(PatternAgent(kickPattern)));
+    manager.addAgent("hat", AgentProxy(NOPAgent()));
+    manager.addAgent("snare", AgentProxy(NOPAgent()));
+    
+
+    that.ctrl = function(id, value) 
+    {
+        if(id != "filter") {
+            manager.agents[id].replace(PatternAgent(that.pat[value]));
+        } 
+        else {
+                level = parseInt(value);
+        }
+    };
+
+    // start kicking !
+    that.ctrl('kick', 'fourOnFloor');
+   
+    return that;
+};
+
+
+// THE FIELD AND STUFF - this holds all the notes !
+AcidProtoState = function(main, num, notes) 
+{
+
+    var that = {},
+        last = 0,
+        v = 0;
+
+    that.state = [];
+    that.main = main;    
+    that.lastHit = Infinity;
+    that.loop = that.count = 0;      
+
+    for(var i = 0; i < num; i++) {
+
+        // GENERATION
+        v = rndi(0, 3);
+        if(rnd(0, 10) > 5) v = last;
+        last = v;
+
+        that.state[i] = {
+            value: v,
+            alive: true,
+            lastPlayed: 0, // cool bug :-)
+            lastPlayedOrJumped: Infinity,
+            lastPlayedJump: 0,
+            lastAlive: Infinity,
+            moved: false
+        };
+    };
+    
+    that.update = function(dt) 
+    {
+        // hi :/
+    };
+    
+    var visitIndex = 0,
+        lastDegree = 0;
+
+    that.visit = function(event) {
+        var numState = that.state[visitIndex];
+        
+        event.dur = 0.25;
+        
+        // extend search and mul with dur, sloppy loop
+        var jump = 1;
+        if(numState.alive) {
+            while(jump < 5) {
+                var nextState = that.state[(visitIndex + jump) % num];
+                if(nextState.alive && nextState.value == numState.value) {
+                    nextState.moved = false;
+                    jump = jump + 1;
+                } else {
+                    break;
+                };
+            };
+        }
+        event.dur = event.dur * jump;
+                
+        mixinTable(event, {
+            action: Instr.OSCStackFilter,
+            channel: main.mx.channels.bass,
+            scale: "minorPentatonic",
+            degree: numState.value,
+            attack: 0.00005,
+            decay: (0.15 + 0.15 * (1.0)) * jump,                        
+            types: ["TRIANGLE"], detunes: [0], amps: [1], // kinda hardcore
+            /* 
+                SAWTOOTH: hardcore
+                SINE: soft
+                TRIANGLE: in between
+            */
+            amp: 0.10,
+            filter: Env.XLine( 
+                Math.abs(Math.sin(main.clock.currentTime / 5)) * 500 + 200,
+                200,
+                (Math.abs(Math.sin(main.clock.currentTime / 4)) * 0.2 + 0.05) * jump),
+            filterQ: 4
+        });
+                  
+        if(numState.moved) 
+        {
+            event.degree = Env.XLine(lastDegree, event.degree, 0.05 * jump);
+        };
+                    
+        lastDegree = numState.value;
+                   
+        numState.lastPlayed = event.clock.absoluteAudioClientBeatTime(event.start);
+        numState.lastPlayedJump = jump;
+        numState.moved = false;
+        
+        for(var i = visitIndex; i < visitIndex + jump; i++) {
+            that.state[i%num].lastPlayedOrJumped = event.clock.absoluteAudioClientBeatTime(event.start);
+        };
+        
+        // check loop
+        visitIndex = visitIndex + jump;
+        if(visitIndex >= num) 
+        { 
+            visitIndex = visitIndex % num;
+            that.loop++;
+            that.count++;
+
+            if(that.loop % 4 == 0)
+            {
+                var last = rndi(0, notes / 2),
+                    min = 0;
+
+                // super high notes in the central section
+                if(that.count > 6 && that.count < 16) min = notes / 2;
+
+                // GENERATION
+                for(var i = 0; i < num; i++) 
+                {
+                    that.state[i].value = rndi(min, notes - (notes / that.loop));
+
+                    if(rnd(0, 10) > 6) that.state[i].value = last;
+                    last = that.state[i].value;
+                }
+            }
+            if(that.loop >= notes) that.loop = 0;
+        };    
+        return event;
+    };    
+    return that;
+};
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// My wrapper for the music related / zinedine stuff
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function msx() 
+{
+
+    Z.init();
+
+    if(typeof(Z.ctx.createOscillator) != "undefined")  // dafuq
+    {
+        // force silent note :/
+        var osc = Z.ctx.createOscillator(),
+            gain = Z.ctx.createGain();
+
+        gain.gain.value = 0;
+        osc.connect(gain);
+        osc.start(0);
+        gain.connect(Z.ctx.destination);
+    }
+
+    GMSX = AcidProto();
+    
+    function updateFunc() 
+    {
+        GMSX.update();
+        requestAnimationFrame(updateFunc, 1000/60);
+    };
+    updateFunc();
+
+};
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// General game related functions
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function go()
+{
+    GEN = true;
+    document.getElementById('title').style.display = "none";
+    zzfx(1,0,550,.25,0,.015,.1,0,.25); // blip
+    zzfx(.05,2,1112,33.8,.23,.1,2.6,0,.14);  // env 2
+    msx();
+}
+
+
+function fx(c, n)
+{
+    GSCENE.setAttribute('fog', 'color', c);
+    if(n) GSCENE.setAttribute('fog', 'near', n);
+}
+
+
+
+// When window gets onload - load textures. Assets will wait
+window.onload = function()
+{
+
+    // sky texture - used as base skyline + clouds (alpha blended layer)
+    function gsky(n)
+    {
+        var { w, h, ctx } = ctex(n, 512, 256);
+        cbox(ctx, 0, 0, w, h, '#003010');
+
+        var n = 22,
+            r = 222;
+        for(var i = 0 ; i < n; i++)
+        {
+            for(var j = 0; j < n; j++)
+            {
+                r = rnd(122, 255); // 2, 255
+                ccircle(ctx, 
+                    rnd(50, w-32), 
+                    rnd(20, h/2 - 32), 
+                    rnd(5, 35),
+                    rgba(r,111,111,0.032));
+            }
+        }
+    }
+
+    gsky("TSK"); // sky
+    gsky("TCD"); // "clouds"
+
+
+
+    // CAR LIGHTS !!!!
+    (()=> {
+        var { w, h, ctx } = ctex("TCL", 128, 64), 
+            c = rgba(255,52,51,1.0);
+
+        cblur(ctx, w / 8, c);
+        // anamorphic bullshit
+        cellipse(ctx, w/2, h/2, 44, 6, c);
+        cellipse(ctx, w/2, h/2, 42, 4, '#F1F1F1');    
+    })();
+
+
+
+    // NEON SIGN ! (I have no idea what those kanji / characters / whatever are about, I hope nothing bad - sorry !)
+    function gneon(n)
+    {
+        var { w, h, ctx } = ctex(n, 256, 512);
+        
+        var c = "ハッ그녀녕っ量그日",
+            //c2 = ["◇","◈","▥","▣","◰","◲","◎","▭","▾"], // not cool
+            x = 128,
+            f = "#ffb3e1",
+            h = (rnd(0, 9) > 6) ? 2 : 1,
+            l = ncol(); // RANDOM NEON COLOR !
+
+        cblur(ctx, 30, l);
+        if(rnd(0, 10) > 3)  // rectangle
+        {
+            cbox(ctx, 32, 32, 192, 448/h, l, 8);
+            cbox(ctx, 32, 32, 192, 448/h, "#fbfbfb", 1);
+        }
+        else if(rnd(0, 10) > 5) // 2 bars
+        {
+            cbox(ctx, 0, 0, w, (h/8) + 8, l);
+            cbox(ctx, 0, 512-8, w, (h/2) + 8, l);            
+        }
+
+        cblur(ctx, 40, "#ffb3e1");
+
+        // Characters - if we are in the rectangle mode, draw 4. If square - only 2
+        ctext(ctx, x, 128, rnda(c), 88, f);
+        ctext(ctx, x, 224, rnda(c), 88, f);
+        if(h==1)
+        {
+            ctext(ctx, x, 340, rnda(c), 88, f);
+            ctext(ctx, x, 440, rnda(c), 88, f);
+        }
+    }
+
+    // generate neon sign textures
+    for(var i=0;i<9;i++) gneon("TN"+i);
+
+
+
+    // Metalic grid or something
+    (()=> {
+        var { w, h, ctx } = ctex("TCT", 256, 256),
+            n = 8,
+            d = 1,
+            s = w / n,
+            b = rnd(2,8);     // background / color  
+
+        cbox(ctx, 0, 0, w, h, 'rgb(' + b + ',' + b + ',' + b + ')');
+        cblur(ctx, s * 2, rgba(5,5,5,1.0)); // fx
+
+        for(var i = 0; i < n; i++)
+        {
+            for(var j = 0; j < n; j++)
+            {
+                b = rnd(35,75);
+                cbox(ctx, 
+                    (i * s) + d, 
+                    (j * s) + d, 
+                    s + (d*2), 
+                    s + (d*2), 
+                    'rgb(' + b + ',' + b + ',' + b + ', 0.20)');
+            }
+        }
+    })();
+
+
+    // BUILDING - this generates the awesome building textures. it's big
+    (()=> {
+        var { w, h, ctx } = ctex("TBD", 512, 1024);
+
+        ///////////////////////////////////////////////////////////
+        //DEBUG - the generation of this texture is what takes longer, disabling it we can load instantly
+        /*if(DEBUG) { cbox(ctx, 0, 0, w, h, '#888'); return; }*/
+        ///////////////////////////////////////////////////////////
+
+
+        var b = rnd(72, 98),    // background
+            k = 24,             // block size in pixels
+            n = w / k,          // number of blocks 
+            m = h / k,
+            r = 0,              // radius for "stains"
+            z = 0,              // used for coloring "windows"
+            y = 0,              // rGb component for coloring windows
+            d = 0.2,            // dots alfa
+            S = false;          // skip line
+
+
+        cbox(ctx, 0, 0, w, h, rgba(b,b,b,1.0));
+        cblur(ctx, k/4, rgba(5,5,5,1.0));
+
+        for(var i = 0 ; i < n; i++)
+        {
+            S = (rnd(0, 10) > 3);
+
+            for(var j = 0; j < m; j++)
+            {
+                b = y = z = rnd(15, 44);
+                r = rnd(5, 45);
+                g = rnd(5, 23);
+
+                // vertical lines
+                cellipse(ctx, 
+                    rnd(0, w), 
+                    rnd(0, h),
+                    rnd(4, 10), 
+                    r * 8,
+                    rgba(95,15,15,0.01));
+
+                // horizontal lines
+                cellipse(ctx, 
+                    rnd(0, w), 
+                    rnd(0, h),
+                    r,
+                    rnd(1, 10), 
+                    rgba(15,15,15,0.1));
+                
+                // dots    
+                d = rnd(0.13, 0.29);
+                ccircle(ctx, 
+                    rnd(0, w), 
+                    rnd(0, h), 
+                    rnd(1, 4), 
+                    rgba(2,2,2,d));
+
+                if(S == true)
+                {
+                    // WINDOW MAIN - 80% empty more or less
+                    if(rnd(0, 10) > 8)
+                    { 
+                        y = b * rnd(25, 95); 
+                        z = b * 6;
+                    }
+                    cbox(ctx, 
+                        4 + (i * k),
+                        4 + (j * k), 
+                        k - 4, 
+                        k - 12, 
+                        rgba(z,y,y,0.9));
+
+                    // WINDOW LINES
+                    d = rnd(0, 4);
+                    for(var x = 0; x < d; x++) 
+                    cbox(ctx, 
+                        4 + (i * k) + rnd(2, k),
+                        4 + (j * k), 
+                        2, 
+                        k - 12, 
+                        rgba(b,b,b,0.3));
+                }
+
+                // BALCONY
+                b = rnd(138, 233);
+                cbox(ctx, 
+                    4 + (i * k),
+                    k + ((j + 1) * k) - 12, 
+                    k - rnd(14, 32), 
+                    18, 
+                    'rgba(' + b + ',' + b + ',' + b + '0.4)'); // using the rgba function breaks all LOL
+            }
+        }
+    })();
+
+} // end of window.onload
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// CARS! they are spawned there where there are no buildings + move forwards and backwards
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+var cars=[]; // no time to follow the global convention sorry :/
+
+
+function Car(x, y, z)
+{
+    var w = 64,
+        h = 12,
+        d = 128,
+        r = 64,
+        c = make('dodecahedron', { // car body
+            position: `${x} ${y} ${z}`,
+            width: `${w}`,    
+            depth: `${d}`,
+            height: `${h}`,
+            radius: `${r}`,
+            material: 'src: #TCT; normalMap: #TCT; color: #131313;'
+        });
+
+    c.make('plane', {  // plane - lights front and back
+        position: '0 0 60',
+        width: '128',
+        height: '32',
+        material: 'src: #TCL; side: double; blending: additive; opacity: 0.95; emissive: ' + ncol() + '; fog: false;',
+    });
+
+    c.make('plane', { 
+        position: '0 0 -60',
+        width: '128',
+        height: '32',
+        material: 'src: #TCL; side: double; blending: additive; opacity: 0.95; emissive: ' + ncol() + '; fog: false;',
+    });
+
+    c.v = -(rnd(550, 1850)); // car velocity !
+    cars.push(c);
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// The white ring thing :D
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+var POI = [],   // all "points of view"
+    PIX = 0,    // point of view index
+    GPP = 0,    // points taken!
+    GCC = null; // global goal something (c c???)
+
+
+function goal(x, y, z)
+{    
+    if(!GCC)
+    {
+        GCC = make('torus', { 
+            position: `${x} ${y} ${z}`,
+            radius: '32',
+            height: '32',     
+            material: 'color: #bffbbf; emissive: #25bf28;',
+        });
+    }
+    GCC.object3D.position.x = x;
+    GCC.object3D.position.y = y;
+    GCC.object3D.position.z = z;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Buildings ! - just rectangles with our super texture
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function Building(x, z) 
+{
+
+    var w = 500 + rnd(150, 500), 
+        h = 2500 + rnd(1, 2500), 
+        d = 870 + rnd(0, 130),
+        y = (h / 2) - 250,
+        v = rnd(20, 250), // top detail
+
+        me = make('box', { // Body
+            position: `${x} ${y} ${z}`,
+            width: `${w}`,    
+            depth: `${d}`,
+            height: `${h}`, 
+            material: 'src: #TBD; normalMap: #TBD; roughness: 0.33; metalness: 0.5',
+            class: 'solid', // used for collision detection
+            //'data-colide-type': 'a-box'
+        });
+
+    // upper ceiling
+    x = 0, y = h/2 + 5, z = 0, h = 10;
+
+    me.make('box', { 
+        position: `${x} ${y} ${z}`,
+        width: `${w}`,
+        depth: `${d}`,
+        height: `${h}`,
+        material: 'src: #TCT; normalMap: #TBD; roughness: 0.33; metalness: 0.5; repeat: 8 8',
+        class: 'solid',
+        //'data-colide-type': 'a-box'
+    });
+
+
+    // spawn neon signs - on the side of buildings
+    if(h < 4000 && rnd(0, 10) > 5)
+    {
+        // sign orientation
+        var rw = (rnd(0, 3) > 1) ? 256 : 0.01,
+            rd = (rw == 256) ? 0.01 : 256,
+            w2 = rw,
+            h2 = 512,
+            d2 = rd,
+            zw = w/2 + rw / 2 + 2; // width offset
+
+        y /= 2;
+
+        me.make('box', { // the sign ! (why not plane?!!? - no idea!)
+            position: `${x + zw} ${y} ${z}`,
+            width: `${w2}`,    
+            depth: `${d2}`,
+            height: `${h2}`,
+            material: 'src: #TN'+rndi(0,9)+'; blending: additive; opacity: 0.95; emissive: ' + ncol() + '; fog: false;',
+            animation: 'property: components.material.material.opacity; delay: ' + rnd(100, 500) + '; from: 1.0; to: 0.15; dur: ' + rnd(1500, 2500) + '; loop: true; easing: easeInOutElastic'
+        });
+    }
+    return me;
+}
+
+
+// Collision with buildings and stuff !
+function test(o) 
+{
+  
+    var mesh = o.getObject3D('mesh');
+    if(!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
+    var bb = mesh.geometry.boundingBox,
+        p = o.getAttribute('position');
+        pp = taxi.object3D.position;
+
+    if( pp.x >= p.x + bb.min.x && pp.x <= p.x + bb.max.x &&
+        pp.y >= p.y + bb.min.y && pp.y <= p.y + bb.max.y &&
+        pp.z >= p.z + bb.min.z && pp.z <= p.z + bb.max.z) 
+    { 
+        return true;
+    }
+
+    return false;
+}
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// MOUNTAIN ! (for the game lower end)
+// taken from here: https://github.com/supermedium/superframe/blob/master/components/mountain/dist/aframe-mountain-component.js
+////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+var ImprovedNoise = function () {
+
+  var p = [ 151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,
+     23,190,6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,88,237,149,56,87,
+     174,20,125,136,171,168,68,175,74,165,71,134,139,48,27,166,77,146,158,231,83,111,229,122,60,211,
+     133,230,220,105,92,41,55,46,245,40,244,102,143,54,65,25,63,161,1,216,80,73,209,76,132,187,208,
+     89,18,169,200,196,135,130,116,188,159,86,164,100,109,198,173,186,3,64,52,217,226,250,124,123,5,
+     202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,223,183,170,213,119,
+     248,152,2,44,154,163,70,221,153,101,155,167,43,172,9,129,22,39,253,19,98,108,110,79,113,224,232,
+     178,185,112,104,218,246,97,228,251,34,242,193,238,210,144,12,191,179,162,241,81,51,145,235,249,
+     14,239,107,49,192,214,31,181,199,106,157,184,84,204,176,115,121,50,45,127,4,150,254,138,236,205,
+     93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180 ];
+
+  for (var i = 0; i < 256 ; i ++) {
+
+    p[256 + i] = p[i];
+
+  }
+
+  function fade(t) {
+
+    return t * t * t * (t * (t * 6 - 15) + 10);
+
+  }
+
+  function lerp(t, a, b) {
+
+    return a + t * (b - a);
+
+  }
+
+  function grad(hash, x, y, z) {
+
+    var h = hash & 15;
+    var u = h < 8 ? x : y, v = h < 4 ? y : h == 12 || h == 14 ? x : z;
+    return ((h&1) == 0 ? u : -u) + ((h&2) == 0 ? v : -v);
+
+  }
+
+  return {
+
+    noise: function (x, y, z) {
+
+      var floorX = ~~x, floorY = ~~y, floorZ = ~~z;
+
+      var X = floorX & 255, Y = floorY & 255, Z = floorZ & 255;
+
+      x -= floorX;
+      y -= floorY;
+      z -= floorZ;
+
+      var xMinus1 = x - 1, yMinus1 = y - 1, zMinus1 = z - 1;
+
+      var u = fade(x), v = fade(y), w = fade(z);
+
+      var A = p[X] + Y, AA = p[A] + Z, AB = p[A + 1] + Z, B = p[X + 1] + Y, BA = p[B] + Z, BB = p[B + 1] + Z;
+
+      return lerp(w, lerp(v, lerp(u, grad(p[AA], x, y, z),
+              grad(p[BA], xMinus1, y, z)),
+            lerp(u, grad(p[AB], x, yMinus1, z),
+              grad(p[BB], xMinus1, yMinus1, z))),
+          lerp(v, lerp(u, grad(p[AA + 1], x, y, zMinus1),
+              grad(p[BA + 1], xMinus1, y, z - 1)),
+            lerp(u, grad(p[AB + 1], x, yMinus1, zMinus1),
+              grad(p[BB + 1], xMinus1, yMinus1, zMinus1))));
+
+    }
+  }
+};
+
+AFRAME.registerComponent('mountain', {
+  schema: {
+    color: {default: 'rgb(71, 49, 58)'},
+    shadowColor: {default: 'rgb(25, 20, 20)'},
+    sunPosition: {type: 'vec3', default: {x: 2500, y: 1500, z: 10}},
+    worldDepth: {default: 256},
+    worldWidth: {default: 256}
+  },
+
+  update: function () {
+    var data = this.data;
+
+    var worldDepth = data.worldDepth;
+    var worldWidth = data.worldWidth;
+
+    // Generate heightmap.
+    var terrainData = generateHeight(worldWidth, worldDepth);
+
+    // Texture.
+    var canvas = generateTexture(
+      terrainData, worldWidth, worldDepth, new THREE.Color(data.color),
+      new THREE.Color(data.shadowColor), data.sunPosition);
+    var texture = new THREE.CanvasTexture(canvas);
+    texture.wrapS = THREE.ClampToEdgeWrapping;
+    texture.wrapT = THREE.ClampToEdgeWrapping;
+
+    // Create geometry.
+    var geometry = new THREE.PlaneBufferGeometry(7500, 7500, worldWidth - 1, worldDepth - 1);
+    geometry.rotateX(- Math.PI / 2);
+    var vertices = geometry.attributes.position.array;
+    for (var i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3) {
+      vertices[j + 1] = terrainData[i] * 10;
+    }
+
+    // Lower geometry.
+    geometry.translate( 1000, (-1 * (terrainData[worldWidth / 2 + worldDepth / 2* worldWidth] * 10) + 350), 2000 );
+    geometry.scale(5.0, 1.5, 5.0);
+
+    // Create material.
+    //var material = new THREE.MeshBasicMaterial({map: texture});
+
+    // Create mesh.
+    var mesh = new THREE.Mesh(
+      geometry, 
+      new THREE.MeshPhongMaterial({map: texture, bumpMap: texture}));
+    this.el.setObject3D('mesh', mesh);
+  }
+});
+
+function generateHeight (width, height) {
+  var size = width * height;
+  var data = new Uint8Array(size);
+  var perlin = new ImprovedNoise();
+  var quality = 1;
+  var z = Math.random() * 8; // 100
+
+  for (var j = 0; j < 4; j ++) {
+    for (var i = 0; i < size; i ++) {
+      var x = i % width, y = ~~ (i / width);
+      data[i] += Math.abs(perlin.noise(x / quality, y / quality, z) * quality * 1.75);
+    }
+    quality *= 5;
+  }
+
+  return data;
+}
+
+function generateTexture (terrainData, width, height, color, colorShadow, sunPos) {
+  var sun = new THREE.Vector3(sunPos.x, sunPos.y, sunPos.z);
+  sun.normalize();
+
+  // Create canvas and context.
+  var canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  var context = canvas.getContext('2d');
+  context.fillStyle = '#000';
+  context.fillRect(0, 0, width, height);
+
+  var image = context.getImageData(0, 0, canvas.width, canvas.height);
+  var imageData = image.data;
+
+  // Convert three.js rgb to 256.
+  var red = color.r * 64;
+  var green = color.g * 64;
+  var blue = color.b * 64;
+  var redShadow = colorShadow.r * 256;
+  var greenShadow = colorShadow.g * 256;
+  var blueShadow = colorShadow.b * 256;
+
+  var shade;
+  var vector3 = new THREE.Vector3(0, 0, 0);
+  for (var i = 0, j = 0, l = imageData.length; i < l; i += 4, j ++) {
+    vector3.x = terrainData[j - 2] - terrainData[j + 2];
+    vector3.y = 24;
+    vector3.z = terrainData[j - width * 2] - terrainData[j + width * 2];
+    vector3.normalize();
+    shade = vector3.dot(sun) * 22.0;
+    imageData[i] = (red + shade * redShadow) * (0.5 + terrainData[j] * 0.007) * 0.057;
+    imageData[i + 1] = (green + shade * blueShadow) * (0.5 + terrainData[j] * 0.007) * 0.055;
+    imageData[i + 2] = (blue + shade * greenShadow) * (0.5 + terrainData[j] * 0.007) * 0.057;
+  }
+
+  context.putImageData(image, 0, 0);
+
+  // Scaled 4x.
+  var canvasScaled = document.createElement('canvas');
+  canvasScaled.width = width * 4;
+  canvasScaled.height = height * 4;
+
+  context = canvasScaled.getContext('2d');
+  context.scale(4, 4);
+  context.drawImage(canvas, 0, 0);
+
+  image = context.getImageData(0, 0, canvasScaled.width, canvasScaled.height);
+  imageData = image.data;
+
+  for (var i = 0, l = imageData.length; i < l; i += 4) {
+    var v = ~~ (Math.random() * 5);
+    imageData[i] += v;
+    imageData[i + 1] += v;
+    imageData[i + 2] += v;
+  }
+
+  context.putImageData(image, 0, 0);
+  return canvasScaled;
+}
+
+AFRAME.registerPrimitive('a-mountain', {
+  defaultComponents: {
+    mountain: {}
+  },
+
+  mappings: {
+    color: 'mountain.color',
+    'shadow-color': 'mountain.shadowColor',
+    'sun-position': 'mountain.sunPosition',
+    'world-depth' :'mountain.worldDepth',
+    'world-width' :'mountain.worldWidth'
+  }
+});
+*/
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+// Game component. Where all the logic happens
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+// The game logic
+AFRAME.registerComponent('game', {
+
+    init: function () {
+        this.firstTime = true;
+        this.mCount = 0.0; // music count timer
+        this.xCount = 0.0; // sfx count timer
+        this.wCount = 0.0; // sfx warning count timer
+
+        ////////////////////////////////////////
+        // TAXI (the player)
+        taxi.yaw        = 0;
+        taxi.moveRot    = new THREE.Euler(0, 0, 0);
+        taxi.velocity   = new THREE.Vector3(0, 0, 1.0);
+        taxi.speed      = 1;
+        taxi.acc        = 0.0;
+        
+
+        // POTATO RESOLUTION = 8x8
+        // GOOD CITY SIZE = 14x14  - my laptop dies :(
+        var b = 7;
+        for (var i=0; i < b; i++)
+        {
+            for(var j =0; j < b; j++)
+            {
+                Building(-3000 + (i * 1250) + rnd(1, 150), i + (j * 1100) + rnd(1, 150));
+            }
+        }
+
+        // CARS!!!
+        for(var i = 0; i < b; i++)
+        {
+            Car(650 - 3000 + (i * 1250), rnd(1500, 2000), -750);
+            if(rnd(0, 9) > 1) Car(650 - 3000 + (i * 1250), rnd(2500, 3000), -750);
+            if(rnd(0, 9) > 3) Car(650 - 3000 + (i * 1250), rnd(3500, 4000), -750);
+            if(rnd(0, 9) > 5) Car(650 - 3000 + (i * 1250), rnd(4500, 5000), -750);            
+        }
+
+        // POI / GOAL / SOMETHING !!!
+        // Generate all the POI and then randomly pick one to follow
+        for(var i = 0; i < b; i++)
+        {
+            var o = 
+            { 
+                x: 650 - 3000 + (i * 1250), 
+                y: rnd(2200, 3500), 
+                z: rnd(-500, 3500)
+            };
+            POI.push(o);
+        }
+
+        PIX = rnda(POI);
+        goal(PIX.x, PIX.y, PIX.z);
+
+        // Used for collision detection 
+        GSL = document.querySelectorAll('.solid');
+    },
+
+    update : function(o)
+    {
+        // weeeee
+    },
+
+    /////////////////////////////////////////////////////////////////
+    // TAXI STUFF
+    getWay : function() {
+        if (GTV.x > 10) GTV.x = 10; if (GTV.x < -10) GTV.x = -10;
+        if (GTV.y > 10) GTV.y = 10; if (GTV.y < -10) GTV.y = -10;
+        if (GTV.z > 10) GTV.z = 10; if (GTV.z < -10) GTV.z = -10;
+        var theWay = {
+            up:    GTV.z/10,
+            down:  GTV.z/10 * -1,
+            left:  GTV.y/10 * -1,
+            right: GTV.y/10,
+            normal:     GTV.x/10,
+            upsideDown: GTV.x/10 * -1
+        };
+        var bigger = { name: 'normal', val: 0 };
+        for (var k in theWay) if ( theWay[k] > bigger.val ) bigger = { name: k, val: theWay[k] };
+        theWay.bigger = bigger.name;
+        return theWay;
+    },
+
+
+    tick : function(t, dt)
+    {
+        // game paused
+        if (GPA) return;
+
+
+        if(this.firstTime)
+        {
+            this.firstTime = false;
+            document.getElementById("intro").outerHTML = ""; // this is awful but I didn't find another way !
+            document.getElementById("title").style.display="block";
+        }
+
+        // game enabled
+        if(GEN)
+        {
+            taxi.acc *= 0.915; // turbo
+
+            if (GTV.x < 10) GTV.x += .2 // taxi vector control stuff
+
+            // KEYBOARD - keys pressed
+            if (GKEYS.ARROWLEFT  || GKEYS.A)  GTV.y -= .12, GTV.x /= 1.2;
+            if (GKEYS.ARROWRIGHT || GKEYS.D)  GTV.y += .12, GTV.x /= 1.2;
+            if (GKEYS.ARROWUP    || GKEYS.W)  GTV.z += .12, GTV.x /= 1.2;
+            if (GKEYS.ARROWDOWN  || GKEYS.S)  GTV.z -= .12, GTV.x /= 1.2;            
+            if (GKEYS.F || GKEYS.X ||  GKEYS.CTRL || GKEYS[' ']) taxi.acc -= (dt / 1000) * 40.0;
+
+            // bullshit? - probably not!
+            if (Math.abs(GTV.y) > 0) GTV.y -= GTV.y/100;
+            if (Math.abs(GTV.z) > 0) GTV.z -= GTV.z/100;
+
+            if(GKEYS.P) console.log(taxi.object3D.position)
+
+            taxi.speed = 1 - taxi.acc;
+
+            // check collisions with stuff !
+            for (var solid,i=0; solid=GSL[i]; i++) 
+            {
+                if (test(solid))
+                {
+                    taxi.speed = -0.01;
+                    return gameover('Be careful with buildings!');
+                }
+            }
+        }
+
+
+        //////////////////////////////////////////
+        // ENV MUSIC FX  !!!
+        this.mCount += (dt / 1000);
+        this.xCount += (dt / 1000);
+
+        if(this.mCount > 28.0)
+        {
+            this.mCount = 0.0;
+            zzfx(.08,2,1112,33.8,.23,.1,2.6,0,.14);  // env 2 !!!!!
+        }
+        //////////////////////////////////////////
+
+
+        // taxi handling
+        var way = this.getWay();
+        taxi.object3D.rotation.x = (cam.object3D.rotation.x = way.up * -Math.PI/2) * 0.5;
+        taxi.object3D.rotation.y = taxi.yaw;  
+        taxi.object3D.rotation.z = (cam.object3D.rotation.z = way.left * Math.PI/2) * 0.5;
+
+        var sinZ = Math.sin(-cam.object3D.rotation.z);
+        if (sinZ != 0) taxi.yaw += sinZ / -25; 
+        taxi.moveRot = new THREE.Euler(way.up * -Math.PI/2, taxi.yaw, 0, 'ZYX');
+        taxi.velocity = (new THREE.Vector3(0,0,taxi.speed)).applyEuler(taxi.moveRot);
+        taxi.object3D.position.sub(taxi.velocity);
+
+        var vp = taxi.object3D.position;
+
+        // mini hack = I lost here like 49 MB :(
+        clouds.object3D.position.x = sky.object3D.position.x = vp.x;
+        clouds.object3D.position.y = sky.object3D.position.y = vp.y;
+        clouds.object3D.position.z = sky.object3D.position.z = vp.z;        
+
+        clouds.object3D.rotation.y += dt * 0.00015; // animate the clouds
+
+        compass.object3D.lookAt(PIX.x, PIX.y, PIX.z); // put our "compass" targetting the next target !
+
+        // update cars
+        for(var i = 0; i < cars.length; i++)
+        {
+            cars[i].object3D.position.z -= (dt / 1000) * cars[i].v;
+
+            var d = cars[i].object3D.position.distanceTo(taxi.object3D.position);
+            if(d < 1750 && this.xCount > 1.5)
+            {
+                //zzfx(5.0,0,rnd(55, 95),.75,.18,0,.3,0,.25); // cars 3 // 3.5 * d / 1750 attenuation based on distance - shitty
+                zzfx(3,.1,77,.8,.65,.1,.5,.1,.22); // car noise when getting close
+                this.xCount = 0.0;
+            }
+
+            if(cars[i].object3D.position.z >= 15000 || cars[i].object3D.position.z <= -5500)
+            {
+                cars[i].v *= -1.0;
+            }
+        }
+
+        // goal - some mini fx / animation for JUICYNESS
+        GCC.object3D.rotation.y += dt * 0.0015;
+
+        // if the game is enabled - do stuff
+        if(GEN)
+        {
+            // the "edge" of the map. Would be better to calculate it based on city size...
+            if(vp.x < -4500 || vp.x > 5500 || vp.z < -2000 || vp.z > 9000 || vp.y < 2000 || vp.y > 5000)
+            {
+                this.wCount += (dt / 1000);
+
+                fx('red', 50);
+                if(parseInt(this.wCount * 10.0 ) % 8 == 0)
+                {
+                    zzfx(0.15,.1,20,.5,.02,17.1,.5,15.9,.79); // alarm ! // seed: ZzFX 60721
+                }
+                
+                if(this.wCount > 3.5)
+                {
+                    this.wCount = 0.0;
+                    taxi.speed = -0.01;
+
+                    gameover('The wasteland is lethal!');
+                }
+            }
+            else
+            {
+                this.wCount = 0.0;
+                fx('#020d04', 550); // kinda shitty to set up this every frame, but THERE'S NO TIME (nor bytes)
+            }
+
+            // collide with the current "goal" / something
+            if(vp.distanceTo(PIX) <= 100)
+            {
+                PIX = rnda(POI); // TODO: CHECK IT'S NOT THE SAME POINT !
+                GPP++;
+                goal(PIX.x, PIX.y, PIX.z);
+                //zzfx(1,0,1046,.15,.76,0,0,0,.95); // blip 2
+                zzfx(1.5,0,750,.25,0,.015,.1,0,.25);
+            }
+        }
+    }
+});
+
+</script>
+</body>
+</html>
